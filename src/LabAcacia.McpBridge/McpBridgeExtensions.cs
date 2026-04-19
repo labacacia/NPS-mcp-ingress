@@ -1,0 +1,109 @@
+// Copyright 2026 INNO LOTUS PTY LTD
+// SPDX-License-Identifier: Apache-2.0
+
+using System.Text;
+using System.Text.Json;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace LabAcacia.McpBridge;
+
+/// <summary>DI + pipeline extensions for the MCP bridge.</summary>
+public static class McpBridgeExtensions
+{
+    /// <summary>
+    /// Register an <see cref="McpBridge"/> with the given upstream configuration.
+    /// Each upstream gets its own typed <c>HttpClient</c> via <c>IHttpClientFactory</c>.
+    /// </summary>
+    public static IServiceCollection AddMcpBridge(
+        this IServiceCollection services,
+        Action<McpBridgeOptions> configure)
+    {
+        var opts = new McpBridgeOptions { Upstreams = Array.Empty<NwpUpstream>() };
+        configure(opts);
+        if (opts.Upstreams.Count == 0)
+            throw new InvalidOperationException("McpBridgeOptions.Upstreams MUST contain at least one entry.");
+
+        // Duplicate-name guard — upstream names become URI hosts, so they must be unique.
+        var dup = opts.Upstreams.GroupBy(u => u.Name).FirstOrDefault(g => g.Count() > 1);
+        if (dup is not null)
+            throw new InvalidOperationException($"Duplicate upstream name '{dup.Key}' in McpBridgeOptions.Upstreams.");
+
+        services.AddSingleton(opts);
+        services.AddHttpClient();
+        services.AddSingleton<McpBridge>(sp =>
+        {
+            var http = sp.GetRequiredService<IHttpClientFactory>();
+            var clients = opts.Upstreams.ToDictionary(
+                u => u.Name,
+                u => new NwpUpstreamClient(http.CreateClient($"mcp-bridge:{u.Name}"), u));
+            return new McpBridge(opts, clients,
+                sp.GetService<Microsoft.Extensions.Logging.ILogger<McpBridge>>());
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Map the MCP JSON-RPC endpoint. Default path is <c>/mcp</c>. The endpoint accepts
+    /// POST with a JSON-RPC 2.0 request body and returns a JSON-RPC response.
+    /// </summary>
+    public static IEndpointConventionBuilder MapMcpBridge(
+        this IEndpointRouteBuilder endpoints,
+        string path = "/mcp")
+    {
+        return endpoints.MapPost(path, async (HttpContext ctx, McpBridge bridge) =>
+        {
+            if (!ctx.Request.ContentType?.StartsWith("application/json", StringComparison.OrdinalIgnoreCase) ?? true)
+            {
+                ctx.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
+                return;
+            }
+
+            JsonRpcRequest? req;
+            try
+            {
+                req = await JsonSerializer.DeserializeAsync<JsonRpcRequest>(
+                    ctx.Request.Body, McpBridge.Json, ctx.RequestAborted);
+            }
+            catch (JsonException jex)
+            {
+                await WriteResponse(ctx, new JsonRpcResponse
+                {
+                    Error = new JsonRpcError { Code = JsonRpcErrorCodes.ParseError, Message = jex.Message },
+                });
+                return;
+            }
+
+            if (req is null || string.IsNullOrEmpty(req.Method))
+            {
+                await WriteResponse(ctx, new JsonRpcResponse
+                {
+                    Error = new JsonRpcError { Code = JsonRpcErrorCodes.InvalidRequest, Message = "invalid JSON-RPC request" },
+                });
+                return;
+            }
+
+            var resp = await bridge.DispatchAsync(req, ctx.RequestAborted);
+
+            // Notifications (id == null) MUST NOT produce a response per JSON-RPC 2.0.
+            if (req.Id is null)
+            {
+                ctx.Response.StatusCode = StatusCodes.Status204NoContent;
+                return;
+            }
+
+            await WriteResponse(ctx, resp);
+        });
+    }
+
+    private static async Task WriteResponse(HttpContext ctx, JsonRpcResponse resp)
+    {
+        ctx.Response.StatusCode  = StatusCodes.Status200OK;
+        ctx.Response.ContentType = "application/json";
+        var bytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(resp, McpBridge.Json));
+        await ctx.Response.Body.WriteAsync(bytes);
+    }
+}
