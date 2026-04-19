@@ -11,7 +11,7 @@ Nodes and invoke NWP Action Nodes without knowing anything about NPS.
 
 - **Protocol**: JSON-RPC 2.0 over HTTP POST (MCP `2024-11-05`).
 - **Target**: .NET 10, ASP.NET Core.
-- **NWP spec**: `spec/NPS-2-NWP.md` v0.4 (Memory Node `§5`, Action Node `§7`).
+- **NWP spec**: `spec/NPS-2-NWP.md` v0.5 (Memory Node `§5`, Action Node `§7`).
 
 ---
 

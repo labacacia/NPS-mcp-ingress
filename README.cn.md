@@ -11,7 +11,7 @@
 
 - **协议**：JSON-RPC 2.0 over HTTP POST（MCP `2024-11-05`）
 - **目标框架**：.NET 10 + ASP.NET Core
-- **NWP 规范**：`spec/NPS-2-NWP.md` v0.4（Memory Node `§5`、Action Node `§7`）
+- **NWP 规范**：`spec/NPS-2-NWP.md` v0.5（Memory Node `§5`、Action Node `§7`）
 
 ---
 
