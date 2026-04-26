@@ -1,10 +1,10 @@
 // Copyright 2026 INNO LOTUS PTY LTD
 // SPDX-License-Identifier: Apache-2.0
 
-namespace LabAcacia.McpBridge;
+namespace LabAcacia.McpIngress;
 
 /// <summary>
-/// Declares one NWP node that the bridge should expose to MCP clients.
+/// Declares one NWP node that the ingress should expose to MCP clients.
 /// The node type is derived from the upstream <c>/.nwm</c> response.
 /// </summary>
 public sealed record NwpUpstream
@@ -23,11 +23,11 @@ public sealed record NwpUpstream
     public string? AuthHeader { get; init; }
 }
 
-/// <summary>Configuration for the bridge server.</summary>
-public sealed class McpBridgeOptions
+/// <summary>Configuration for the ingress server.</summary>
+public sealed class McpIngressOptions
 {
     /// <summary>Server name reported in <c>initialize</c>.</summary>
-    public string ServerName { get; set; } = "LabAcacia.McpBridge";
+    public string ServerName { get; set; } = "LabAcacia.McpIngress";
 
     /// <summary>Server version reported in <c>initialize</c>.</summary>
     public string ServerVersion { get; set; } = "0.1.0-alpha.1";

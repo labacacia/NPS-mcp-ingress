@@ -1,8 +1,8 @@
 English | [中文版](./README.cn.md)
 
-# LabAcacia.McpBridge
+# LabAcacia.McpIngress
 
-[![NuGet](https://img.shields.io/nuget/v/LabAcacia.McpBridge.svg)](https://www.nuget.org/packages/LabAcacia.McpBridge)
+[![NuGet](https://img.shields.io/nuget/v/LabAcacia.McpIngress.svg)](https://www.nuget.org/packages/LabAcacia.McpIngress)
 
 An **ASP.NET Core library** that turns one or more **NPS NWP nodes** into a single
 [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server. MCP-speaking
@@ -38,7 +38,7 @@ Addressing conventions:
 ## Install
 
 ```bash
-dotnet add package LabAcacia.McpBridge
+dotnet add package LabAcacia.McpIngress
 ```
 
 ---
@@ -46,11 +46,11 @@ dotnet add package LabAcacia.McpBridge
 ## Quick start
 
 ```csharp
-using LabAcacia.McpBridge;
+using LabAcacia.McpIngress;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMcpBridge(o =>
+builder.Services.AddMcpIngress(o =>
 {
     o.ServerName    = "my-agent-gateway";
     o.ServerVersion = "1.0.0";
@@ -72,7 +72,7 @@ builder.Services.AddMcpBridge(o =>
 });
 
 var app = builder.Build();
-app.MapMcpBridge("/mcp");   // POST /mcp — JSON-RPC 2.0
+app.MapMcpIngress("/mcp");   // POST /mcp — JSON-RPC 2.0
 app.Run();
 ```
 
@@ -82,7 +82,7 @@ Point any MCP client at `https://<host>/mcp`. No agent code needs to be changed.
 
 ## Configuration
 
-`McpBridgeOptions`:
+`McpIngressOptions`:
 
 | Property            | Default              | Purpose                                                            |
 | ------------------- | -------------------- | ------------------------------------------------------------------ |
@@ -106,7 +106,7 @@ Point any MCP client at `https://<host>/mcp`. No agent code needs to be changed.
 
 Errors are returned as JSON-RPC 2.0 errors. In addition to the standard codes
 (`-32700` parse, `-32600` invalid request, `-32601` method not found, `-32602`
-invalid params, `-32603` internal), the bridge defines:
+invalid params, `-32603` internal), the ingress defines:
 
 | Code      | Meaning                                             |
 | --------- | --------------------------------------------------- |
@@ -122,7 +122,7 @@ per the spec.
 ## Testing
 
 ```bash
-dotnet test compat/mcp-bridge/tests/LabAcacia.McpBridge.Tests/LabAcacia.McpBridge.Tests.csproj
+dotnet test compat/mcp-bridge/tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIngress.Tests.csproj
 ```
 
 The test suite exercises every MCP handler against a fake NWP backend

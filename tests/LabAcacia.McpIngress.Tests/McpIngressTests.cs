@@ -4,17 +4,17 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using LabAcacia.McpBridge;
+using LabAcacia.McpIngress;
 using Xunit;
 
-namespace LabAcacia.McpBridge.Tests;
+namespace LabAcacia.McpIngress.Tests;
 
 /// <summary>
-/// Unit tests for <see cref="global::LabAcacia.McpBridge.McpBridge"/>. The upstream NWP
+/// Unit tests for <see cref="global::LabAcacia.McpIngress.McpIngress"/>. The upstream NWP
 /// node is replaced with a <see cref="StubHandler"/> so we can run without any real
 /// HTTP server or network I/O.
 /// </summary>
-public sealed class McpBridgeTests
+public sealed class McpIngressTests
 {
     private static readonly JsonSerializerOptions Json = new()
     {
@@ -38,7 +38,7 @@ public sealed class McpBridgeTests
         Assert.NotNull(resp.Result);
         var protoVer = resp.Result!.Value.GetProperty("protocolVersion").GetString();
         Assert.Equal(McpProtocol.Version, protoVer);
-        Assert.Equal("LabAcacia.McpBridge.Tests",
+        Assert.Equal("LabAcacia.McpIngress.Tests",
             resp.Result!.Value.GetProperty("serverInfo").GetProperty("name").GetString());
     }
 
@@ -269,7 +269,7 @@ public sealed class McpBridgeTests
     {
         var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
         Assert.Throws<InvalidOperationException>(() =>
-            services.AddMcpBridge(o => o.Upstreams = new[]
+            services.AddMcpIngress(o => o.Upstreams = new[]
             {
                 new NwpUpstream { Name = "a", BaseUrl = new Uri("https://a.test") },
                 new NwpUpstream { Name = "a", BaseUrl = new Uri("https://b.test") },
@@ -281,35 +281,35 @@ public sealed class McpBridgeTests
     {
         var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
         Assert.Throws<InvalidOperationException>(() =>
-            services.AddMcpBridge(_ => { /* leave Upstreams empty */ }));
+            services.AddMcpIngress(_ => { /* leave Upstreams empty */ }));
     }
 
     // ── Test fixtures ────────────────────────────────────────────────────────
 
-    private static (global::LabAcacia.McpBridge.McpBridge, StubHandler) BuildBridgeWithMemoryNode()
+    private static (global::LabAcacia.McpIngress.McpIngress, StubHandler) BuildBridgeWithMemoryNode()
     {
         var handler = StubHandler.ForMemoryNode();
-        var opts    = new McpBridgeOptions
+        var opts    = new McpIngressOptions
         {
-            ServerName = "LabAcacia.McpBridge.Tests",
+            ServerName = "LabAcacia.McpIngress.Tests",
             Upstreams  = new[] { new NwpUpstream { Name = "products", BaseUrl = new Uri("https://memory.test/products") } },
         };
         var client = new NwpUpstreamClient(new HttpClient(handler), opts.Upstreams[0]);
         var clients = new Dictionary<string, NwpUpstreamClient> { ["products"] = client };
-        return (new global::LabAcacia.McpBridge.McpBridge(opts, clients), handler);
+        return (new global::LabAcacia.McpIngress.McpIngress(opts, clients), handler);
     }
 
-    private static (global::LabAcacia.McpBridge.McpBridge, StubHandler) BuildBridgeWithActionNode()
+    private static (global::LabAcacia.McpIngress.McpIngress, StubHandler) BuildBridgeWithActionNode()
     {
         var handler = StubHandler.ForActionNode();
-        var opts    = new McpBridgeOptions
+        var opts    = new McpIngressOptions
         {
-            ServerName = "LabAcacia.McpBridge.Tests",
+            ServerName = "LabAcacia.McpIngress.Tests",
             Upstreams  = new[] { new NwpUpstream { Name = "orders", BaseUrl = new Uri("https://action.test/orders") } },
         };
         var client = new NwpUpstreamClient(new HttpClient(handler), opts.Upstreams[0]);
         var clients = new Dictionary<string, NwpUpstreamClient> { ["orders"] = client };
-        return (new global::LabAcacia.McpBridge.McpBridge(opts, clients), handler);
+        return (new global::LabAcacia.McpIngress.McpIngress(opts, clients), handler);
     }
 }
 

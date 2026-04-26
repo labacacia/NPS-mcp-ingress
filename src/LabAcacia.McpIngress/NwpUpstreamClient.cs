@@ -4,7 +4,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace LabAcacia.McpBridge;
+namespace LabAcacia.McpIngress;
 
 /// <summary>
 /// Thin typed client for a single upstream NWP node. Knows how to read <c>/.nwm</c>,
