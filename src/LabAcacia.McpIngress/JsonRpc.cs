@@ -4,11 +4,11 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace LabAcacia.McpBridge;
+namespace LabAcacia.McpIngress;
 
 /// <summary>
 /// JSON-RPC 2.0 request (<see href="https://www.jsonrpc.org/specification"/>).
-/// MCP uses JSON-RPC over stdio or HTTP+SSE; this bridge targets HTTP.
+/// MCP uses JSON-RPC over stdio or HTTP+SSE; this ingress targets HTTP.
 /// </summary>
 public sealed record JsonRpcRequest
 {
@@ -64,7 +64,7 @@ public static class JsonRpcErrorCodes
     public const int InvalidParams  = -32602;
     public const int InternalError  = -32603;
 
-    // MCP-bridge-specific application errors (use the range -32000..-32099)
+    // MCP-ingress-specific application errors (use the range -32000..-32099)
     public const int UpstreamError  = -32000;
     public const int ResourceNotFound = -32001;
     public const int ToolNotFound   = -32002;

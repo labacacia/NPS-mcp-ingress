@@ -5,7 +5,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace LabAcacia.McpBridge;
+namespace LabAcacia.McpIngress;
 
 /// <summary>
 /// Core MCP ↔ NWP dispatcher. Translates MCP JSON-RPC methods into calls on one or
@@ -17,7 +17,7 @@ namespace LabAcacia.McpBridge;
 /// Each upstream gets a URI scheme prefix derived from <see cref="NwpUpstream.Name"/>
 /// (<c>nwp://{name}/</c>) so MCP clients can address resources/tools unambiguously.
 /// </summary>
-public sealed class McpBridge
+public sealed class McpIngress
 {
     internal static readonly JsonSerializerOptions Json = new()
     {
@@ -25,14 +25,14 @@ public sealed class McpBridge
         PropertyNameCaseInsensitive = true,
     };
 
-    private readonly McpBridgeOptions _options;
+    private readonly McpIngressOptions _options;
     private readonly IReadOnlyDictionary<string, NwpUpstreamClient> _clients;
     private readonly ILogger _log;
 
-    public McpBridge(
-        McpBridgeOptions options,
+    public McpIngress(
+        McpIngressOptions options,
         IReadOnlyDictionary<string, NwpUpstreamClient> clients,
-        ILogger<McpBridge>? logger = null)
+        ILogger<McpIngress>? logger = null)
     {
         _options = options;
         _clients = clients;
@@ -53,7 +53,7 @@ public sealed class McpBridge
                 "tools/call"           => Ok(req.Id, await HandleToolCall(req.Params, ct)),
                 "ping"                 => Ok(req.Id, JsonSerializer.SerializeToElement(new { }, Json)),
                 _                      => Err(req.Id, JsonRpcErrorCodes.MethodNotFound,
-                                              $"Method '{req.Method}' is not supported by this bridge."),
+                                              $"Method '{req.Method}' is not supported by this ingress."),
             };
         }
         catch (BridgeException bex)
