@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\LabAcacia.McpBridge\LabAcacia.McpBridge.csproj" />
+    <ProjectReference Include="..\..\src\LabAcacia.McpIngress\LabAcacia.McpIngress.csproj" />
   </ItemGroup>
 
 </Project>

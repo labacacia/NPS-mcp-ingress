@@ -4,10 +4,10 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace LabAcacia.McpBridge;
+namespace LabAcacia.McpIngress;
 
 /// <summary>
-/// Supported MCP protocol version this bridge implements.
+/// Supported MCP protocol version this ingress implements.
 /// See <see href="https://modelcontextprotocol.io/specification"/>.
 /// </summary>
 public static class McpProtocol

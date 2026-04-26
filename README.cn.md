@@ -1,8 +1,8 @@
 [English Version](./README.md) | 中文版
 
-# LabAcacia.McpBridge
+# LabAcacia.McpIngress
 
-[![NuGet](https://img.shields.io/nuget/v/LabAcacia.McpBridge.svg)](https://www.nuget.org/packages/LabAcacia.McpBridge)
+[![NuGet](https://img.shields.io/nuget/v/LabAcacia.McpIngress.svg)](https://www.nuget.org/packages/LabAcacia.McpIngress)
 
 一个 **ASP.NET Core 库**，把一个或多个 **NPS NWP 节点** 包装成单一的
 [Model Context Protocol](https://modelcontextprotocol.io)（MCP）服务器。任何
@@ -38,7 +38,7 @@
 ## 安装
 
 ```bash
-dotnet add package LabAcacia.McpBridge
+dotnet add package LabAcacia.McpIngress
 ```
 
 ---
@@ -46,11 +46,11 @@ dotnet add package LabAcacia.McpBridge
 ## 快速开始
 
 ```csharp
-using LabAcacia.McpBridge;
+using LabAcacia.McpIngress;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMcpBridge(o =>
+builder.Services.AddMcpIngress(o =>
 {
     o.ServerName    = "my-agent-gateway";
     o.ServerVersion = "1.0.0";
@@ -72,7 +72,7 @@ builder.Services.AddMcpBridge(o =>
 });
 
 var app = builder.Build();
-app.MapMcpBridge("/mcp");   // POST /mcp — JSON-RPC 2.0
+app.MapMcpIngress("/mcp");   // POST /mcp — JSON-RPC 2.0
 app.Run();
 ```
 
@@ -82,7 +82,7 @@ app.Run();
 
 ## 配置
 
-`McpBridgeOptions`：
+`McpIngressOptions`：
 
 | 字段                | 默认值                 | 作用                                                               |
 | ------------------- | ---------------------- | ------------------------------------------------------------------ |
@@ -121,7 +121,7 @@ JSON-RPC *通知*（没有 `id` 的请求）按规范返回 HTTP `204 No Content
 ## 测试
 
 ```bash
-dotnet test compat/mcp-bridge/tests/LabAcacia.McpBridge.Tests/LabAcacia.McpBridge.Tests.csproj
+dotnet test compat/mcp-bridge/tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIngress.Tests.csproj
 ```
 
 测试用 `HttpMessageHandler` 桩假冒 NWP 后端，跑通所有 MCP 处理函数 —— 不依
