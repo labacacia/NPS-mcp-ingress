@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace LabAcacia.McpIngress;
 
-/// <summary>DI + pipeline extensions for the MCP bridge.</summary>
+/// <summary>DI + pipeline extensions for the MCP ingress.</summary>
 public static class McpIngressExtensions
 {
     /// <summary>
@@ -38,7 +38,7 @@ public static class McpIngressExtensions
             var http = sp.GetRequiredService<IHttpClientFactory>();
             var clients = opts.Upstreams.ToDictionary(
                 u => u.Name,
-                u => new NwpUpstreamClient(http.CreateClient($"mcp-bridge:{u.Name}"), u));
+                u => new NwpUpstreamClient(http.CreateClient($"mcp-ingress:{u.Name}"), u));
             return new McpIngress(opts, clients,
                 sp.GetService<Microsoft.Extensions.Logging.ILogger<McpIngress>>());
         });
@@ -54,7 +54,7 @@ public static class McpIngressExtensions
         this IEndpointRouteBuilder endpoints,
         string path = "/mcp")
     {
-        return endpoints.MapPost(path, async (HttpContext ctx, McpIngress bridge) =>
+        return endpoints.MapPost(path, async (HttpContext ctx, McpIngress ingress) =>
         {
             if (!ctx.Request.ContentType?.StartsWith("application/json", StringComparison.OrdinalIgnoreCase) ?? true)
             {
@@ -86,7 +86,7 @@ public static class McpIngressExtensions
                 return;
             }
 
-            var resp = await bridge.DispatchAsync(req, ctx.RequestAborted);
+            var resp = await ingress.DispatchAsync(req, ctx.RequestAborted);
 
             // Notifications (id == null) MUST NOT produce a response per JSON-RPC 2.0.
             if (req.Id is null)

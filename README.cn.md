@@ -86,7 +86,7 @@ app.Run();
 
 | 字段                | 默认值                 | 作用                                                               |
 | ------------------- | ---------------------- | ------------------------------------------------------------------ |
-| `ServerName`        | `labacacia-mcp-bridge` | `initialize` 返回的 `serverInfo.name`                              |
+| `ServerName`        | `labacacia-mcp-ingress` | `initialize` 返回的 `serverInfo.name`                              |
 | `ServerVersion`     | `0.1.0`                | `initialize` 返回的 `serverInfo.version`                           |
 | `Upstreams`         | *（必填，≥1）*         | 要暴露的 NWP 节点列表                                              |
 | `ResourceReadLimit` | `100`                  | MCP 客户端调用 `resources/read` 时传给 `/query` 的 `limit` 值      |
@@ -121,11 +121,18 @@ JSON-RPC *通知*（没有 `id` 的请求）按规范返回 HTTP `204 No Content
 ## 测试
 
 ```bash
-dotnet test compat/mcp-bridge/tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIngress.Tests.csproj
+dotnet test compat/mcp-ingress/tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIngress.Tests.csproj
 ```
 
 测试用 `HttpMessageHandler` 桩假冒 NWP 后端，跑通所有 MCP 处理函数 —— 不依
 赖网络。
+
+---
+
+## 扩展阅读
+
+- [MCP Ingress 详解](../../docs/compat/mcp-ingress.md) — 1:N 模型、tool 名编码、异步生命周期、header 语义、生产注意
+- [桥层总览](../../docs/compat/index.md) — MCP / A2A / gRPC 何时选哪个
 
 ---
 

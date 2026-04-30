@@ -86,7 +86,7 @@ Point any MCP client at `https://<host>/mcp`. No agent code needs to be changed.
 
 | Property            | Default              | Purpose                                                            |
 | ------------------- | -------------------- | ------------------------------------------------------------------ |
-| `ServerName`        | `labacacia-mcp-bridge` | `serverInfo.name` returned by `initialize`.                      |
+| `ServerName`        | `labacacia-mcp-ingress` | `serverInfo.name` returned by `initialize`.                      |
 | `ServerVersion`     | `0.1.0`              | `serverInfo.version` returned by `initialize`.                     |
 | `Upstreams`         | *(required, ≥1)*     | List of NWP nodes to expose.                                       |
 | `ResourceReadLimit` | `100`                | `limit` passed to `/query` when an MCP client calls `resources/read`. |
@@ -122,11 +122,18 @@ per the spec.
 ## Testing
 
 ```bash
-dotnet test compat/mcp-bridge/tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIngress.Tests.csproj
+dotnet test compat/mcp-ingress/tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIngress.Tests.csproj
 ```
 
 The test suite exercises every MCP handler against a fake NWP backend
 (`HttpMessageHandler` stubs) — no network required.
+
+---
+
+## Further reading
+
+- [MCP Ingress deep dive](../../docs/compat/mcp-ingress.en.md) — 1:N model, tool-name encoding, async lifecycle, header semantics, production notes
+- [Compat ingresses overview](../../docs/compat/index.en.md) — when to pick MCP / A2A / gRPC
 
 ---
 

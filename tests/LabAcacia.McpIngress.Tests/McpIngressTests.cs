@@ -26,9 +26,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task Initialize_ReturnsProtocolAndServerInfo()
     {
-        var (bridge, _) = BuildBridgeWithMemoryNode();
+        var (ingress, _) = BuildIngressWithMemoryNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "initialize",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -47,9 +47,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ResourcesList_ReturnsMemoryNodeEntries()
     {
-        var (bridge, _) = BuildBridgeWithMemoryNode();
+        var (ingress, _) = BuildIngressWithMemoryNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "resources/list",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -64,9 +64,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ResourcesList_IgnoresActionNodes()
     {
-        var (bridge, _) = BuildBridgeWithActionNode();
+        var (ingress, _) = BuildIngressWithActionNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "resources/list",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -82,9 +82,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ResourcesRead_CallsUpstreamQuery_AndReturnsTextContent()
     {
-        var (bridge, handler) = BuildBridgeWithMemoryNode();
+        var (ingress, handler) = BuildIngressWithMemoryNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "resources/read",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -103,9 +103,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ResourcesRead_UnknownUpstream_ReturnsResourceNotFound()
     {
-        var (bridge, _) = BuildBridgeWithMemoryNode();
+        var (ingress, _) = BuildIngressWithMemoryNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "resources/read",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -119,9 +119,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ResourcesRead_BadUri_ReturnsInvalidParams()
     {
-        var (bridge, _) = BuildBridgeWithMemoryNode();
+        var (ingress, _) = BuildIngressWithMemoryNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "resources/read",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -137,9 +137,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ToolsList_ReturnsActionNodeActions()
     {
-        var (bridge, _) = BuildBridgeWithActionNode();
+        var (ingress, _) = BuildIngressWithActionNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "tools/list",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -157,9 +157,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ToolsList_IgnoresMemoryNodes()
     {
-        var (bridge, _) = BuildBridgeWithMemoryNode();
+        var (ingress, _) = BuildIngressWithMemoryNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "tools/list",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -174,9 +174,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ToolsCall_PostsToInvoke_AndReturnsText()
     {
-        var (bridge, handler) = BuildBridgeWithActionNode();
+        var (ingress, handler) = BuildIngressWithActionNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "tools/call",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -198,9 +198,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ToolsCall_MalformedName_ReturnsToolNotFound()
     {
-        var (bridge, _) = BuildBridgeWithActionNode();
+        var (ingress, _) = BuildIngressWithActionNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "tools/call",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -214,9 +214,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ToolsCall_UnknownUpstream_ReturnsToolNotFound()
     {
-        var (bridge, _) = BuildBridgeWithActionNode();
+        var (ingress, _) = BuildIngressWithActionNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "tools/call",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -230,11 +230,11 @@ public sealed class McpIngressTests
     [Fact]
     public async Task ToolsCall_UpstreamReturns404_SetsIsError()
     {
-        var (bridge, handler) = BuildBridgeWithActionNode();
+        var (ingress, handler) = BuildIngressWithActionNode();
         handler.InvokeStatus = HttpStatusCode.NotFound;
         handler.InvokeBody   = """{"status":"NPS-CLIENT-NOT-FOUND","error":"NWP-ACTION-NOT-FOUND"}""";
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "tools/call",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -250,9 +250,9 @@ public sealed class McpIngressTests
     [Fact]
     public async Task UnknownMethod_ReturnsMethodNotFound()
     {
-        var (bridge, _) = BuildBridgeWithMemoryNode();
+        var (ingress, _) = BuildIngressWithMemoryNode();
 
-        var resp = await bridge.DispatchAsync(new JsonRpcRequest
+        var resp = await ingress.DispatchAsync(new JsonRpcRequest
         {
             Method = "totally/unknown",
             Id     = JsonDocument.Parse("1").RootElement,
@@ -286,7 +286,7 @@ public sealed class McpIngressTests
 
     // ── Test fixtures ────────────────────────────────────────────────────────
 
-    private static (global::LabAcacia.McpIngress.McpIngress, StubHandler) BuildBridgeWithMemoryNode()
+    private static (global::LabAcacia.McpIngress.McpIngress, StubHandler) BuildIngressWithMemoryNode()
     {
         var handler = StubHandler.ForMemoryNode();
         var opts    = new McpIngressOptions
@@ -299,7 +299,7 @@ public sealed class McpIngressTests
         return (new global::LabAcacia.McpIngress.McpIngress(opts, clients), handler);
     }
 
-    private static (global::LabAcacia.McpIngress.McpIngress, StubHandler) BuildBridgeWithActionNode()
+    private static (global::LabAcacia.McpIngress.McpIngress, StubHandler) BuildIngressWithActionNode()
     {
         var handler = StubHandler.ForActionNode();
         var opts    = new McpIngressOptions

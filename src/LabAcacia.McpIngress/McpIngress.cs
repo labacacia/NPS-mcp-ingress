@@ -56,7 +56,7 @@ public sealed class McpIngress
                                               $"Method '{req.Method}' is not supported by this ingress."),
             };
         }
-        catch (BridgeException bex)
+        catch (IngressException bex)
         {
             return Err(req.Id, bex.Code, bex.Message);
         }
@@ -66,7 +66,7 @@ public sealed class McpIngress
         }
         catch (Exception ex)
         {
-            _log.LogError(ex, "Bridge dispatch failed for method {Method}", req.Method);
+            _log.LogError(ex, "Ingress dispatch failed for method {Method}", req.Method);
             return Err(req.Id, JsonRpcErrorCodes.InternalError, ex.Message);
         }
     }
@@ -114,15 +114,15 @@ public sealed class McpIngress
     private async Task<JsonElement> HandleResourceRead(JsonElement? rawParams, CancellationToken ct)
     {
         var p = rawParams?.Deserialize<McpResourceReadParams>(Json)
-            ?? throw new BridgeException(JsonRpcErrorCodes.InvalidParams, "resources/read requires `uri`.");
+            ?? throw new IngressException(JsonRpcErrorCodes.InvalidParams, "resources/read requires `uri`.");
 
         if (!Uri.TryCreate(p.Uri, UriKind.Absolute, out var uri) || uri.Scheme != "nwp")
-            throw new BridgeException(JsonRpcErrorCodes.InvalidParams,
+            throw new IngressException(JsonRpcErrorCodes.InvalidParams,
                 $"Resource URI '{p.Uri}' must be nwp://<name>/");
 
         var upstreamName = uri.Host;
         if (!_clients.TryGetValue(upstreamName, out var client))
-            throw new BridgeException(JsonRpcErrorCodes.ResourceNotFound,
+            throw new IngressException(JsonRpcErrorCodes.ResourceNotFound,
                 $"Unknown upstream '{upstreamName}'.");
 
         // Build a QueryFrame asking for at most `ResourceReadLimit` rows.
@@ -133,7 +133,7 @@ public sealed class McpIngress
         if (!resp.IsSuccessStatusCode)
         {
             var err = await resp.Content.ReadAsStringAsync(ct);
-            throw new BridgeException(JsonRpcErrorCodes.UpstreamError,
+            throw new IngressException(JsonRpcErrorCodes.UpstreamError,
                 $"Upstream '{upstreamName}' returned {(int)resp.StatusCode}: {err}");
         }
 
@@ -196,19 +196,19 @@ public sealed class McpIngress
     private async Task<JsonElement> HandleToolCall(JsonElement? rawParams, CancellationToken ct)
     {
         var p = rawParams?.Deserialize<McpToolCallParams>(Json)
-            ?? throw new BridgeException(JsonRpcErrorCodes.InvalidParams, "tools/call requires `name`.");
+            ?? throw new IngressException(JsonRpcErrorCodes.InvalidParams, "tools/call requires `name`.");
 
         // Tool name format: {upstream}__{action_id_with_underscores}
         var sep = p.Name.IndexOf("__", StringComparison.Ordinal);
         if (sep <= 0)
-            throw new BridgeException(JsonRpcErrorCodes.ToolNotFound,
+            throw new IngressException(JsonRpcErrorCodes.ToolNotFound,
                 $"Tool name '{p.Name}' is malformed (expected '<upstream>__<action>').");
 
         var upstreamName = p.Name[..sep];
         var actionId     = p.Name[(sep + 2)..].Replace('_', '.');
 
         if (!_clients.TryGetValue(upstreamName, out var client))
-            throw new BridgeException(JsonRpcErrorCodes.ToolNotFound,
+            throw new IngressException(JsonRpcErrorCodes.ToolNotFound,
                 $"Unknown upstream '{upstreamName}'.");
 
         var invokeBody = JsonSerializer.SerializeToElement(new
@@ -265,7 +265,7 @@ public sealed class McpIngress
 }
 
 /// <summary>Internal exception carrying a JSON-RPC error code.</summary>
-internal sealed class BridgeException(int code, string message) : Exception(message)
+internal sealed class IngressException(int code, string message) : Exception(message)
 {
     public int Code { get; } = code;
 }
