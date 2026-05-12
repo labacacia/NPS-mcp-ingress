@@ -121,7 +121,7 @@ JSON-RPC *通知*（没有 `id` 的请求）按规范返回 HTTP `204 No Content
 ## 测试
 
 ```bash
-dotnet test compat/mcp-ingress/tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIngress.Tests.csproj
+dotnet test tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIngress.Tests.csproj
 ```
 
 测试用 `HttpMessageHandler` 桩假冒 NWP 后端，跑通所有 MCP 处理函数 —— 不依
@@ -131,8 +131,8 @@ dotnet test compat/mcp-ingress/tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIng
 
 ## 扩展阅读
 
-- [MCP Ingress 详解](../../docs/compat/mcp-ingress.md) — 1:N 模型、tool 名编码、异步生命周期、header 语义、生产注意
-- [桥层总览](../../docs/compat/index.md) — MCP / A2A / gRPC 何时选哪个
+- [MCP Ingress 详解](https://github.com/labacacia/NPS-Dev/blob/main/docs/compat/mcp-ingress.md) — 1:N 模型、tool 名编码、异步生命周期、header 语义、生产注意
+- [桥层总览](https://github.com/labacacia/NPS-Dev/blob/main/docs/compat/index.md) — MCP / A2A / gRPC 何时选哪个
 
 ---
 

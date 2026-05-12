@@ -122,7 +122,7 @@ per the spec.
 ## Testing
 
 ```bash
-dotnet test compat/mcp-ingress/tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIngress.Tests.csproj
+dotnet test tests/LabAcacia.McpIngress.Tests/LabAcacia.McpIngress.Tests.csproj
 ```
 
 The test suite exercises every MCP handler against a fake NWP backend
@@ -132,8 +132,8 @@ The test suite exercises every MCP handler against a fake NWP backend
 
 ## Further reading
 
-- [MCP Ingress deep dive](../../docs/compat/mcp-ingress.en.md) — 1:N model, tool-name encoding, async lifecycle, header semantics, production notes
-- [Compat ingresses overview](../../docs/compat/index.en.md) — when to pick MCP / A2A / gRPC
+- [MCP Ingress deep dive](https://github.com/labacacia/NPS-Dev/blob/main/docs/compat/mcp-ingress.en.md) — 1:N model, tool-name encoding, async lifecycle, header semantics, production notes
+- [Compat ingresses overview](https://github.com/labacacia/NPS-Dev/blob/main/docs/compat/index.en.md) — when to pick MCP / A2A / gRPC
 
 ---
 
