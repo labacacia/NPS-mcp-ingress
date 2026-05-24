@@ -7,6 +7,7 @@ namespace LabAcacia.NPS.McpIngress;
 /// Declares one NWP node that the ingress should expose to MCP clients.
 /// The node type is derived from the upstream <c>/.nwm</c> response.
 /// </summary>
+[Obsolete("Package LabAcacia.McpBridge is deprecated. Use LabAcacia.NPS.McpIngress instead.")]
 public sealed record NwpUpstream
 {
     /// <summary>Human-readable tag, used to namespace MCP resource URIs and tool names.</summary>
@@ -24,6 +25,7 @@ public sealed record NwpUpstream
 }
 
 /// <summary>Configuration for the ingress server.</summary>
+[Obsolete("Package LabAcacia.McpBridge is deprecated. Use LabAcacia.NPS.McpIngress instead.")]
 public sealed class McpIngressOptions
 {
     /// <summary>Server name reported in <c>initialize</c>.</summary>
