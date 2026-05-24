@@ -4,7 +4,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace LabAcacia.McpIngress;
+namespace LabAcacia.NPS.McpIngress;
 
 /// <summary>
 /// Supported MCP protocol version this ingress implements.

@@ -1,7 +1,7 @@
 // Copyright 2026 INNO LOTUS PTY LTD
 // SPDX-License-Identifier: Apache-2.0
 
-namespace LabAcacia.McpIngress;
+namespace LabAcacia.NPS.McpIngress;
 
 /// <summary>
 /// Declares one NWP node that the ingress should expose to MCP clients.

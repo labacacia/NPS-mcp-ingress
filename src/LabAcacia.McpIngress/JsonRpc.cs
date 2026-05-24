@@ -4,7 +4,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace LabAcacia.McpIngress;
+namespace LabAcacia.NPS.McpIngress;
 
 /// <summary>
 /// JSON-RPC 2.0 request (<see href="https://www.jsonrpc.org/specification"/>).

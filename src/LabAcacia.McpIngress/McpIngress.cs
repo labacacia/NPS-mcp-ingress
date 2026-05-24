@@ -5,7 +5,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace LabAcacia.McpIngress;
+namespace LabAcacia.NPS.McpIngress;
 
 /// <summary>
 /// Core MCP ↔ NWP dispatcher. Translates MCP JSON-RPC methods into calls on one or

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LabAcacia.McpIngress;
+namespace LabAcacia.NPS.McpIngress;
 
 /// <summary>DI + pipeline extensions for the MCP ingress.</summary>
 public static class McpIngressExtensions
