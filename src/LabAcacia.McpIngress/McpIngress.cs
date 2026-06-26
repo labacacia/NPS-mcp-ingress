@@ -17,7 +17,6 @@ namespace LabAcacia.NPS.McpIngress;
 /// Each upstream gets a URI scheme prefix derived from <see cref="NwpUpstream.Name"/>
 /// (<c>nwp://{name}/</c>) so MCP clients can address resources/tools unambiguously.
 /// </summary>
-[Obsolete("Package LabAcacia.McpBridge is deprecated. Use LabAcacia.NPS.McpIngress instead.")]
 public sealed class McpIngress
 {
     internal static readonly JsonSerializerOptions Json = new()

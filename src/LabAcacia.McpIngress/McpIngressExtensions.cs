@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 namespace LabAcacia.NPS.McpIngress;
 
 /// <summary>DI + pipeline extensions for the MCP ingress.</summary>
-[Obsolete("Package LabAcacia.McpBridge is deprecated. Use LabAcacia.NPS.McpIngress instead.")]
 public static class McpIngressExtensions
 {
     /// <summary>

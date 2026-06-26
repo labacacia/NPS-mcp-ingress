@@ -10,7 +10,7 @@ using Xunit;
 namespace LabAcacia.McpIngress.Tests;
 
 /// <summary>
-/// Unit tests for <see cref="global::LabAcacia.McpIngress.McpIngress"/>. The upstream NWP
+/// Unit tests for <see cref="global::LabAcacia.NPS.McpIngress.McpIngress"/>. The upstream NWP
 /// node is replaced with a <see cref="StubHandler"/> so we can run without any real
 /// HTTP server or network I/O.
 /// </summary>
@@ -286,7 +286,7 @@ public sealed class McpIngressTests
 
     // ── Test fixtures ────────────────────────────────────────────────────────
 
-    private static (global::LabAcacia.McpIngress.McpIngress, StubHandler) BuildIngressWithMemoryNode()
+    private static (global::LabAcacia.NPS.McpIngress.McpIngress, StubHandler) BuildIngressWithMemoryNode()
     {
         var handler = StubHandler.ForMemoryNode();
         var opts    = new McpIngressOptions
@@ -296,10 +296,10 @@ public sealed class McpIngressTests
         };
         var client = new NwpUpstreamClient(new HttpClient(handler), opts.Upstreams[0]);
         var clients = new Dictionary<string, NwpUpstreamClient> { ["products"] = client };
-        return (new global::LabAcacia.McpIngress.McpIngress(opts, clients), handler);
+        return (new global::LabAcacia.NPS.McpIngress.McpIngress(opts, clients), handler);
     }
 
-    private static (global::LabAcacia.McpIngress.McpIngress, StubHandler) BuildIngressWithActionNode()
+    private static (global::LabAcacia.NPS.McpIngress.McpIngress, StubHandler) BuildIngressWithActionNode()
     {
         var handler = StubHandler.ForActionNode();
         var opts    = new McpIngressOptions
@@ -309,7 +309,7 @@ public sealed class McpIngressTests
         };
         var client = new NwpUpstreamClient(new HttpClient(handler), opts.Upstreams[0]);
         var clients = new Dictionary<string, NwpUpstreamClient> { ["orders"] = client };
-        return (new global::LabAcacia.McpIngress.McpIngress(opts, clients), handler);
+        return (new global::LabAcacia.NPS.McpIngress.McpIngress(opts, clients), handler);
     }
 }
 

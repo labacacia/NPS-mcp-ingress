@@ -4,12 +4,13 @@ English | [中文版](./README.cn.md)
 
 [![NuGet](https://img.shields.io/nuget/v/LabAcacia.McpIngress.svg)](https://www.nuget.org/packages/LabAcacia.McpIngress)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.0.0--alpha.8-orange.svg)](CHANGELOG.md)
-[![NCP](https://img.shields.io/badge/NCP-v0.6-5b8cff.svg)]()
-[![NWP](https://img.shields.io/badge/NWP-v0.12-4af0b0.svg)]()
-[![NIP](https://img.shields.io/badge/NIP-v0.8-7b61ff.svg)]()
-[![NDP](https://img.shields.io/badge/NDP-v0.7-f0a050.svg)]()
-[![NOP](https://img.shields.io/badge/NOP-v0.5-ff8c42.svg)]()
+[![Release](https://img.shields.io/badge/release-v1.0.0--alpha.13-orange.svg)](CHANGELOG.md)
+[![Next](https://img.shields.io/badge/next-v1.0.0--alpha.14--candidate-yellow.svg)](CHANGELOG.md#100-alpha14--unreleased)
+[![NCP](https://img.shields.io/badge/NCP-v0.8-5b8cff.svg)]()
+[![NWP](https://img.shields.io/badge/NWP-v0.14-4af0b0.svg)]()
+[![NIP](https://img.shields.io/badge/NIP-v0.10-7b61ff.svg)]()
+[![NDP](https://img.shields.io/badge/NDP-v0.9-f0a050.svg)]()
+[![NOP](https://img.shields.io/badge/NOP-v0.7-ff8c42.svg)]()
 
 An **ASP.NET Core library** that turns one or more **NPS NWP nodes** into a single
 [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server. MCP-speaking
@@ -18,7 +19,7 @@ Nodes and invoke NWP Action Nodes without knowing anything about NPS.
 
 - **Protocol**: JSON-RPC 2.0 over HTTP POST (MCP `2024-11-05`).
 - **Target**: .NET 10, ASP.NET Core.
-- **NWP spec**: `spec/NPS-2-NWP.md` v0.5 (Memory Node `§5`, Action Node `§7`).
+- **NWP spec**: `spec/NPS-2-NWP.md` v0.14 (Memory Node `§5`, Action Node `§7`).
 
 ---
 
