@@ -3,9 +3,8 @@ English | [中文版](./README.cn.md)
 # LabAcacia.McpIngress
 
 [![NuGet](https://img.shields.io/nuget/v/LabAcacia.McpIngress.svg)](https://www.nuget.org/packages/LabAcacia.McpIngress)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v1.0.0--alpha.13-orange.svg)](CHANGELOG.md)
-[![Next](https://img.shields.io/badge/next-v1.0.0--alpha.14--candidate-yellow.svg)](CHANGELOG.md#100-alpha14--unreleased)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](../../LICENSE)
+[![Release](https://img.shields.io/badge/release-v1.0.0--alpha.14-orange.svg)](CHANGELOG.md)
 [![NCP](https://img.shields.io/badge/NCP-v0.8-5b8cff.svg)]()
 [![NWP](https://img.shields.io/badge/NWP-v0.14-4af0b0.svg)]()
 [![NIP](https://img.shields.io/badge/NIP-v0.10-7b61ff.svg)]()
@@ -54,7 +53,7 @@ dotnet add package LabAcacia.McpIngress
 ## Quick start
 
 ```csharp
-using LabAcacia.McpIngress;
+using LabAcacia.NPS.McpIngress;
 
 var builder = WebApplication.CreateBuilder(args);
 

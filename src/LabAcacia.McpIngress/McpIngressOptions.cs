@@ -30,7 +30,7 @@ public sealed class McpIngressOptions
     public string ServerName { get; set; } = "LabAcacia.McpIngress";
 
     /// <summary>Server version reported in <c>initialize</c>.</summary>
-    public string ServerVersion { get; set; } = "0.1.0-alpha.1";
+    public string ServerVersion { get; set; } = "1.0.0-alpha.14";
 
     /// <summary>One or more NWP nodes to expose.</summary>
     public required IReadOnlyList<NwpUpstream> Upstreams { get; set; }

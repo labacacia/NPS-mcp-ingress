@@ -6,32 +6,35 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
     <RootNamespace>LabAcacia.McpIngress</RootNamespace>
     <PackageId>LabAcacia.McpIngress</PackageId>
     <AssemblyName>LabAcacia.McpIngress</AssemblyName>
-    <Version>1.0.0-alpha.13</Version>
+    <Version>1.0.0-alpha.14</Version>
     <Description>MCP ↔ NWP ingress: exposes NPS Memory / Action Nodes to Model Context Protocol clients.</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Authors>LabAcacia / INNO LOTUS PTY LTD</Authors>
     <Company>INNO LOTUS PTY LTD</Company>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>nps;nwp;mcp;ingress;ai;agent</PackageTags>
     <PackageProjectUrl>https://github.com/labacacia/nps</PackageProjectUrl>
     <RepositoryUrl>https://github.com/labacacia/nps</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="../../README.md" Pack="true" PackagePath="/" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
