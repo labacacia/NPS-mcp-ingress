@@ -4,6 +4,9 @@
 
 [![NuGet](https://img.shields.io/nuget/v/LabAcacia.McpIngress.svg)](https://www.nuget.org/packages/LabAcacia.McpIngress)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](../../LICENSE)
+
+> ⚠️ **自 v1.0.0-alpha.17 起弃用。** 本兼容 ingress 已由 **`NPS.NWP.Bridge`** 的双向 Bridge 入站面取代（[NPS-CR-0010](https://github.com/labacacia/NPS-Dev/blob/main/spec/cr/NPS-CR-0010-bridge-bidirectional.md)），入站 MCP 适配器已并入 Bridge Node。本包**冻结在 alpha.16**，不再有 alpha.17+ 更新。请迁移到 `NPS.NWP.Bridge` 的入站 MCP 服务器。
+
 [![Release](https://img.shields.io/badge/release-v1.0.0--alpha.16-orange.svg)](CHANGELOG.cn.md)
 [![NCP](https://img.shields.io/badge/NCP-v0.9-5b8cff.svg)]()
 [![NWP](https://img.shields.io/badge/NWP-v0.14-4af0b0.svg)]()

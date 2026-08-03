@@ -4,6 +4,9 @@ English | [中文版](./README.cn.md)
 
 [![NuGet](https://img.shields.io/nuget/v/LabAcacia.McpIngress.svg)](https://www.nuget.org/packages/LabAcacia.McpIngress)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](../../LICENSE)
+
+> ⚠️ **Deprecated as of v1.0.0-alpha.17.** This compatibility ingress is superseded by the bidirectional Bridge inbound surface in **`NPS.NWP.Bridge`** ([NPS-CR-0010](https://github.com/labacacia/NPS-Dev/blob/main/spec/cr/NPS-CR-0010-bridge-bidirectional.md)), which consolidates the inbound MCP adapter into the Bridge Node. This package is **frozen at alpha.16** and receives no alpha.17+ updates. Migrate to `NPS.NWP.Bridge`'s inbound MCP server.
+
 [![Release](https://img.shields.io/badge/release-v1.0.0--alpha.16-orange.svg)](CHANGELOG.md)
 [![NCP](https://img.shields.io/badge/NCP-v0.9-5b8cff.svg)]()
 [![NWP](https://img.shields.io/badge/NWP-v0.14-4af0b0.svg)]()
