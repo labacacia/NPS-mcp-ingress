@@ -2,17 +2,37 @@ English | [中文版](./README.cn.md)
 
 # LabAcacia.McpIngress
 
+> ## ⚠️ Deprecated — absorbed into the Bridge package (NPS-CR-0010)
+>
+> `v1.0.0-alpha.17` is the **final deprecated release**. The package leaves the
+> synchronized release train in alpha.18.
+>
+> [NPS-CR-0010](https://github.com/labacacia/NPS-Release/blob/main/spec/cr/NPS-CR-0010-bridge-bidirectional.md)
+> settled **Bridge Node as bidirectional**. NWP's own taxonomy always defined it that way
+> (`NPS ↔ non-NPS`); the "outbound-only" narrowing that made this a *separate* package existed
+> only so the name `Bridge` would not collide with `compat/*-ingress`. With that restriction
+> lifted, the inbound adapters belong in the Bridge package — where they now share one
+> translation core, one error map (NWP §16.3), and one conformance profile with the outbound
+> direction, instead of drifting apart as two hand-maintained copies.
+>
+> **Migrate to [`LabAcacia.NPS.NWP.Bridge`](https://www.nuget.org/packages/LabAcacia.NPS.NWP.Bridge).**
+> The replacement is a superset: it fronts remote NWP nodes over HTTP exactly as this package did
+> (`NwpUpstream` → `BridgeInboundOptions.Upstreams`), and additionally serves a co-hosted node
+> in-process, over the same `INwpBackend` abstraction.
+>
+> Note also that `nps-ingress` — the Layer-2 public-network edge daemon — keeps its name. It is
+> unrelated to this package and always was; that word collision is what CR-0010 dissolves.
+
+
+
 [![NuGet](https://img.shields.io/nuget/v/LabAcacia.McpIngress.svg)](https://www.nuget.org/packages/LabAcacia.McpIngress)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](../../LICENSE)
-
-> ⚠️ **Deprecated as of v1.0.0-alpha.17.** This compatibility ingress is superseded by the bidirectional Bridge inbound surface in **`NPS.NWP.Bridge`** ([NPS-CR-0010](https://github.com/labacacia/NPS-Dev/blob/main/spec/cr/NPS-CR-0010-bridge-bidirectional.md)), which consolidates the inbound MCP adapter into the Bridge Node. This package is **frozen at alpha.16** and receives no alpha.17+ updates. Migrate to `NPS.NWP.Bridge`'s inbound MCP server.
-
-[![Release](https://img.shields.io/badge/release-v1.0.0--alpha.16-orange.svg)](CHANGELOG.md)
-[![NCP](https://img.shields.io/badge/NCP-v0.9-5b8cff.svg)]()
-[![NWP](https://img.shields.io/badge/NWP-v0.14-4af0b0.svg)]()
-[![NIP](https://img.shields.io/badge/NIP-v0.10-7b61ff.svg)]()
-[![NDP](https://img.shields.io/badge/NDP-v0.9-f0a050.svg)]()
-[![NOP](https://img.shields.io/badge/NOP-v0.7-ff8c42.svg)]()
+[![Release](https://img.shields.io/badge/release-v1.0.0--alpha.17-orange.svg)](CHANGELOG.md)
+[![NCP](https://img.shields.io/badge/NCP-v0.11-5b8cff.svg)]()
+[![NWP](https://img.shields.io/badge/NWP-v0.20-4af0b0.svg)]()
+[![NIP](https://img.shields.io/badge/NIP-v0.13-7b61ff.svg)]()
+[![NDP](https://img.shields.io/badge/NDP-v0.12-f0a050.svg)]()
+[![NOP](https://img.shields.io/badge/NOP-v0.9-ff8c42.svg)]()
 
 An **ASP.NET Core library** that turns one or more **NPS NWP nodes** into a single
 [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server. MCP-speaking
